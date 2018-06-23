@@ -1,0 +1,33 @@
+# CurrencyBank
+
+#pragma once
+#include "Currency.h"
+#include "ConcreteObserver.h"
+#include<vector>
+
+class CentralBank
+{
+public:
+	CentralBank(const char* name = "No name", std::vector<Currency> currencies = std::vector<Currency>(),
+		std::vector<Observer*> observers = std::vector<Observer*>());
+	CentralBank(const CentralBank& cB) { CopyFrom(cB); }
+	~CentralBank() { Destroy(); }
+
+	void setName(const char* n);
+	void setRate(const Currency& c);
+	void addCurrency(const Currency& c) { currencies.push_back(c); }
+	void deleteCurrency(const Currency& c);
+	void registerObserver(const Observer& o);
+	void unregister(const Observer& o);
+	void notify(const Currency& c) const ;
+	void printCurrencies() const;
+	void printObservers() const { for (int i = 0; i < observers.size(); i++)observers[i]->print(); }
+private:
+	void Destroy();
+	void CopyFrom(const CentralBank& cB);
+
+	char* name;
+	std::vector<Currency> currencies;
+	std::vector<Observer*> observers;
+};
+
